@@ -20,11 +20,12 @@ export async function GET(
     const image = images.find(img => img.id === params.imageId);
     
     if (!image) {
-      return NextResponse.json({ error: 'Image not found' }, { status: 404 });
+      return NextResponse.json({ likes: 0 });
     }
     
-    return NextResponse.json({ likes: image.likes || 0 });
-  } catch {
+    return NextResponse.json({ likes: image.likes });
+  } catch (error) {
+    console.error('Error reading likes:', error);
     return NextResponse.json({ likes: 0 });
   }
 }
@@ -69,7 +70,8 @@ export async function POST(
     });
 
     return response;
-  } catch {
-    return NextResponse.json({ error: 'Failed to update likes' }, { status: 500 });
+  } catch (error) {
+    console.error('Error updating likes:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 } 
