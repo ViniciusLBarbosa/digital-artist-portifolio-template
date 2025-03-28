@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Image from 'next/image';
 
 interface ImageData {
   url: string;
@@ -55,7 +56,7 @@ export default function ImageView({ category, filename }: ImageViewProps) {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [handleKeyDown]);
 
   if (!image) {
     return null;
@@ -76,13 +77,15 @@ export default function ImageView({ category, filename }: ImageViewProps) {
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <img
+        <Image 
           src={image.url}
           alt={image.title}
-          className="w-auto h-auto object-contain"
+          width={800}
+          height={600}
+          className="max-w-[95vw] max-h-[90vh] object-contain"
           style={{
-            maxWidth: '95%',
-            maxHeight: '95%'
+            margin: 'auto',
+            boxShadow: '0 0 20px rgba(0,0,0,0.3)'
           }}
         />
       </div>

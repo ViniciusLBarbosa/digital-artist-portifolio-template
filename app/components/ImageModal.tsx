@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 interface ImageModalProps {
   imageUrl: string;
   title: string;
@@ -38,14 +40,12 @@ export default function ImageModal({ imageUrl, title, onClose }: ImageModalProps
 
       {/* Container da Imagem */}
       <div className="relative w-full h-full flex items-center justify-center p-4">
-        <img
+        <Image 
           src={imageUrl}
-          alt={title}
-          className="max-w-[95vw] max-h-[90vh] object-contain"
-          style={{
-            margin: 'auto',
-            boxShadow: '0 0 20px rgba(0,0,0,0.3)'
-          }}
+          alt="Modal Image"
+          width={800}
+          height={600}
+          className="modal-image"
         />
       </div>
     </div>
