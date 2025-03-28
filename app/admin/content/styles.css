@@ -1,0 +1,247 @@
+/* Container principal */
+.content-admin {
+  min-height: 100vh;
+  background-color: var(--background-color);
+  padding: 2rem 0;
+}
+
+.content-container {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.content-card {
+  background: var(--container-bg);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Header */
+.content-header {
+  padding: 1.5rem 2rem;
+  background: var(--button-bg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.content-title {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.back-button {
+  background: #9DA8AB;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Tabs */
+.tabs-container {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+  color: var(--button-bg);
+}
+
+.tab-button.active {
+  color: var(--button-bg);
+  border-bottom-color: var(--button-bg);
+}
+
+.tab-button i {
+  margin-right: 0.5rem;
+}
+
+/* Form */
+.content-form {
+  padding: 2rem;
+}
+
+/* Mensagens */
+.message {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.message.error {
+  background-color: rgba(239, 68, 68, 0.1);
+  border-left: 4px solid #ef4444;
+  color: #991b1b;
+}
+
+.message.success {
+  background-color: rgba(34, 197, 94, 0.1);
+  border-left: 4px solid #22c55e;
+  color: #166534;
+}
+
+.message i {
+  margin-top: 0.125rem;
+}
+
+/* Campos de texto */
+.text-area {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  transition: all 0.3s ease;
+  resize: vertical;
+  min-height: 120px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text-color);
+}
+
+.text-area:focus {
+  border-color: var(--button-bg);
+  box-shadow: 0 0 0 3px rgba(157, 168, 171, 0.2);
+  outline: none;
+}
+
+.text-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text-color);
+}
+
+.text-input:focus {
+  border-color: var(--button-bg);
+  box-shadow: 0 0 0 3px rgba(157, 168, 171, 0.2);
+  outline: none;
+}
+
+/* Botões */
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.button-primary {
+  background-color: var(--button-bg);
+  color: white;
+}
+
+.button-primary:hover {
+  background-color: var(--button-hover);
+  transform: translateY(-2px);
+}
+
+.button-secondary {
+  background-color: transparent;
+  color: var(--button-bg);
+}
+
+.button-secondary:hover {
+  background-color: rgba(157, 168, 171, 0.1);
+}
+
+.button-danger {
+  color: #ef4444;
+  transition: all 0.3s ease;
+  background: transparent;
+}
+
+.button-danger:hover {
+  color: #dc2626;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* Seções */
+.section {
+  margin-bottom: 2rem;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.price-section {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1.5rem;
+  position: relative;
+  backdrop-filter: blur(5px);
+}
+
+.price-section:hover .button-danger {
+  opacity: 1;
+}
+
+.price-item {
+  position: relative;
+  margin-bottom: 0.75rem;
+}
+
+.price-item:hover .button-danger {
+  opacity: 1;
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+} 

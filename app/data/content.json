@@ -1,0 +1,25 @@
+{
+  "about": {
+    "paragraphs": [
+      "About"
+    ]
+  },
+  "prices": {
+    "sections": [
+      {
+        "title": "New Section",
+        "items": [
+          "New item",
+          "New item"
+        ]
+      },
+      {
+        "title": "New Section",
+        "items": [
+          "New item",
+          "New item"
+        ]
+      }
+    ]
+  }
+}
