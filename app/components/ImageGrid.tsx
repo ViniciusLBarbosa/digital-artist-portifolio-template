@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import Image from 'next/image';
 
 interface Image {
   id: string;
@@ -76,8 +77,8 @@ export default function ImageGrid({ category }: ImageGridProps) {
       // Add image ID to likes list
       setLikedImages(prev => [...prev, imageId]);
 
-    } catch (err: any) {
-      if (err.response?.status === 400) {
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.status === 400) {
         // User already liked
         const button = document.querySelector(`[data-image-id="${imageId}"]`);
         if (button) {
@@ -121,9 +122,11 @@ export default function ImageGrid({ category }: ImageGridProps) {
                   maxHeight: category === 'gallery' ? '400px' : '250px'
                 }}
               >
-                <img
+                <Image
                   src={image.url}
                   alt={image.title}
+                  width={category === 'gallery' ? 800 : 300}
+                  height={category === 'gallery' ? 600 : 300}
                   style={{
                     maxWidth: category === 'gallery' ? '100%' : '250px',
                     maxHeight: category === 'gallery' ? '400px' : '250px',

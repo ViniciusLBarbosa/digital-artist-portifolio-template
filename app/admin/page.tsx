@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { IMGBB_CONFIG } from '../config/imgbb';
-import PageLayout from '../components/PageLayout';
 import { useAuth } from '../context/AuthContext';
 import Link from 'next/link';
+import Image from 'next/image';
 
 type ImageCategory = 'gallery' | 'icon' | 'sticker';
 
@@ -113,9 +113,9 @@ export default function Admin() {
       
       setUploadedImages(prev => prev.filter(img => img.id !== id));
       setSuccess('Image deleted successfully!');
-    } catch (err: any) {
+    } catch (err) {
       console.error('Error deleting image:', err);
-      setError('Error deleting image: ' + (err.response?.data?.error || err.message));
+      setError('Error deleting image: ' + (err instanceof Error ? err.message : 'Unknown error'));
     } finally {
       setDeleting(null);
     }
@@ -184,13 +184,13 @@ export default function Admin() {
         throw new Error('Failed to upload image');
       }
 
-    } catch (err: any) {
+    } catch (err) {
       console.error('Complete error:', err);
       let errorMessage = 'Error uploading image. Please try again.';
       
-      if (err.response?.data?.error) {
+      if (axios.isAxiosError(err) && err.response?.data?.error) {
         errorMessage = `Error: ${err.response.data.error.message}`;
-      } else if (err.message) {
+      } else if (err instanceof Error) {
         errorMessage = err.message;
       }
       
@@ -248,7 +248,7 @@ export default function Admin() {
 
           <button 
             type="submit" 
-            className="back-button"
+            className="submit-button"
             disabled={uploading}
           >
             {uploading ? 'Uploading...' : 'Upload Image'}
@@ -259,9 +259,11 @@ export default function Admin() {
           {uploadedImages.map((image) => (
             <div key={image.id} className="image-card">
               <div className="image-container">
-                <img
+                <Image
                   src={image.url}
                   alt={image.title}
+                  width={300}
+                  height={300}
                   onClick={() => handleImageClick(image)}
                 />
                 <div className="image-overlay">

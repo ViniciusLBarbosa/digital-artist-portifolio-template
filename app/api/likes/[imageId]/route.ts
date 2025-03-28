@@ -1,9 +1,33 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
 import { cookies } from 'next/headers';
 
-const imagesFilePath = path.join(process.cwd(), 'app/data/images.json');
+const dataFilePath = path.join(process.cwd(), 'app/data/images.json');
+
+interface Image {
+  id: string;
+  likes: number;
+}
+
+export async function GET(
+  request: Request,
+  { params }: { params: { imageId: string } }
+) {
+  try {
+    const data = await fs.readFile(dataFilePath, 'utf-8');
+    const images: Image[] = JSON.parse(data);
+    const image = images.find(img => img.id === params.imageId);
+    
+    if (!image) {
+      return NextResponse.json({ error: 'Image not found' }, { status: 404 });
+    }
+    
+    return NextResponse.json({ likes: image.likes || 0 });
+  } catch {
+    return NextResponse.json({ likes: 0 });
+  }
+}
 
 export async function POST(
   request: Request,
@@ -25,49 +49,27 @@ export async function POST(
       );
     }
     
-    // Ler o arquivo de imagens
-    const jsonData = fs.readFileSync(imagesFilePath, 'utf-8');
-    const data = JSON.parse(jsonData);
-    const images = data.images || [];
-    
-    // Encontrar a imagem
-    const imageIndex = images.findIndex((img: any) => img.id === imageId);
+    const data = await fs.readFile(dataFilePath, 'utf-8');
+    const images: Image[] = JSON.parse(data);
+    const imageIndex = images.findIndex(img => img.id === imageId);
     
     if (imageIndex === -1) {
-      return NextResponse.json(
-        { error: 'Imagem não encontrada' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Image not found' }, { status: 404 });
     }
-
-    // Atualizar os likes
-    const image = images[imageIndex];
-    const currentLikes = image.likes || 0;
-    const newLikes = currentLikes + 1;
-
-    // Atualizar a imagem no array
-    images[imageIndex] = {
-      ...image,
-      likes: newLikes
-    };
-
-    // Salvar o arquivo atualizado
-    fs.writeFileSync(imagesFilePath, JSON.stringify({ images }, null, 2));
-
+    
+    images[imageIndex].likes = (images[imageIndex].likes || 0) + 1;
+    await fs.writeFile(dataFilePath, JSON.stringify(images, null, 2));
+    
     // Atualizar o cookie com a nova imagem liked
     likedImages.push(imageId);
-    const response = NextResponse.json({ likes: newLikes });
+    const response = NextResponse.json({ likes: images[imageIndex].likes });
     response.cookies.set('liked_images', JSON.stringify(likedImages), {
       maxAge: 30 * 24 * 60 * 60, // 30 dias
       path: '/'
     });
 
     return response;
-  } catch (error) {
-    console.error('Erro ao atualizar likes:', error);
-    return NextResponse.json(
-      { error: 'Erro ao atualizar likes' },
-      { status: 500 }
-    );
+  } catch {
+    return NextResponse.json({ error: 'Failed to update likes' }, { status: 500 });
   }
 } 
