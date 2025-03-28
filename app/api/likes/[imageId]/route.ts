@@ -10,20 +10,14 @@ interface Image {
   likes: number;
 }
 
-type RouteContext = {
-  params: {
-    imageId: string;
-  };
-};
-
 export async function GET(
   request: Request,
-  context: RouteContext
+  { params }: { params: { imageId: string } }
 ) {
   try {
     const data = await fs.readFile(dataFilePath, 'utf-8');
     const images: Image[] = JSON.parse(data);
-    const image = images.find(img => img.id === context.params.imageId);
+    const image = images.find(img => img.id === params.imageId);
     
     if (!image) {
       return NextResponse.json({ likes: 0 });
@@ -38,10 +32,10 @@ export async function GET(
 
 export async function POST(
   request: Request,
-  context: RouteContext
+  { params }: { params: { imageId: string } }
 ) {
   try {
-    const imageId = context.params.imageId;
+    const imageId = params.imageId;
     const cookieStore = cookies();
     const likedImagesCookie = cookieStore.get('liked_images');
     const likedImages = likedImagesCookie?.value 
