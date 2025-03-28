@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 
@@ -19,6 +19,10 @@ interface ImageViewProps {
 export default function ImageView({ category, filename }: ImageViewProps) {
   const router = useRouter();
   const [image, setImage] = useState<ImageData | null>(null);
+
+  const handleClose = useCallback(() => {
+    router.push(`/${category}`);
+  }, [router, category]);
 
   useEffect(() => {
     const loadImage = async () => {
@@ -41,22 +45,18 @@ export default function ImageView({ category, filename }: ImageViewProps) {
     loadImage();
   }, [category, filename]);
 
-  const handleClose = () => {
-    router.push(`/${category}`);
-  };
-
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      handleClose();
-    }
-  };
-
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleClose();
+      }
+    };
+
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleKeyDown]);
+  }, [handleClose]);
 
   if (!image) {
     return null;

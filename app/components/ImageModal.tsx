@@ -4,11 +4,10 @@ import Image from 'next/image';
 
 interface ImageModalProps {
   imageUrl: string;
-  title: string;
   onClose: () => void;
 }
 
-export default function ImageModal({ imageUrl, title, onClose }: ImageModalProps) {
+export default function ImageModal({ imageUrl, onClose }: ImageModalProps) {
   // Fechar o modal quando clicar fora da imagem
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
